@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Rapport - Produits proches de l'expiration</h3>
+<table class="table table-striped">
+  <thead><tr><th>Article</th><th>Lot</th><th>Date d'expiration</th><th>Stock</th><th>Statut</th></tr></thead>
+  <tbody>
+    {% for batch in near_expiry_batches %}
+    <tr class="{% if batch.expiry_date <= today %}table-danger{% else %}table-warning{% endif %}">
+      <td>{{ batch.medicine.name }}</td>
+      <td>{{ batch.lot_no }}</td>
+      <td>{{ batch.expiry_date }}</td>
+      <td>{{ batch.quantity_on_hand }}</td>
+      <td>{% if batch.expiry_date <= today %}Expiré{% else %}Bientôt expiré{% endif %}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Aucun produit proche de l'expiration.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

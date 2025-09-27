@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="text-center mb-4">
+  <img src="{% static 'images/logo.svg' %}" alt="Logo" height="80" class="mb-3">
+  <h2>Bienvenue dans PharmApp</h2>
+  <p class="text-muted">Système de gestion de pharmacie</p>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-4"><div class="card p-3 text-center shadow-sm"><h5>Articles</h5><div class="display-6">{{ articles|default:'—' }}</div></div></div>
+  <div class="col-md-4"><div class="card p-3 text-center shadow-sm"><h5>Ventes du jour</h5><div class="display-6">{{ sales_today|default:'—' }}</div></div></div>
+  <div class="col-md-4"><div class="card p-3 text-center shadow-sm"><h5>Lots proches d'expiration</h5><div class="display-6">{{ near_exp|default:'—' }}</div></div></div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Accès rapide</h5>
+      </div>
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          <a href="/sales/pos/" class="btn btn-success">Point de vente</a>
+          <a href="/inventory/" class="btn btn-primary">Inventaire</a>
+          <a href="/purchases/new/" class="btn btn-info">Nouvel achat</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Rapports</h5>
+      </div>
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          <a href="/reports/low-stock/" class="btn btn-warning">Stock faible</a>
+          <a href="/reports/near-expiry/" class="btn btn-danger">Proche expiration</a>
+          <a href="/sales/" class="btn btn-secondary">Historique ventes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

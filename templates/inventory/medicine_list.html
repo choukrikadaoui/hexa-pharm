@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Inventaire</h3>
+  <a href="{% url 'medicine_create' %}" class="btn btn-success">+ Nouveau</a>
+</div>
+<form class="mb-3" method="get"><input type="search" name="q" value="{{ q }}" class="form-control" placeholder="Rechercher..."/></form>
+<table class="table table-striped">
+  <thead><tr><th>Nom</th><th>Forme</th><th>Dosage</th><th>Prix</th><th>Min</th><th></th></tr></thead>
+  <tbody>
+    {% for m in medicines %}
+    <tr>
+      <td>{{ m.name }}</td><td>{{ m.form }}</td><td>{{ m.strength }}</td><td>{{ m.unit_price }}</td><td>{{ m.min_stock }}</td>
+      <td><a href="{% url 'medicine_update' m.pk %}" class="btn btn-sm btn-primary">Modifier</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">Aucun article.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

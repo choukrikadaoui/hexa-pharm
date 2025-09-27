@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Rapport - Stock faible</h3>
+<table class="table table-striped">
+  <thead><tr><th>Article</th><th>Stock actuel</th><th>Seuil minimum</th><th>Statut</th></tr></thead>
+  <tbody>
+    {% for item in low_stock_medicines %}
+    <tr class="{% if item.current_stock == 0 %}table-danger{% else %}table-warning{% endif %}">
+      <td>{{ item.medicine.name }}</td>
+      <td>{{ item.current_stock }}</td>
+      <td>{{ item.min_stock }}</td>
+      <td>{% if item.current_stock == 0 %}Rupture{% else %}Stock faible{% endif %}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">Aucun article en rupture ou en stock faible.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
