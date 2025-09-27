@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Détails de la vente #{{ sale.id }}</h3>
+    <div>
+      <a href="{% url 'sale_update' sale.pk %}" class="btn btn-primary">Modifier</a>
+      <a href="{% url 'sale_delete' sale.pk %}" class="btn btn-danger">Supprimer</a>
+      <a href="{% url 'sale_list' %}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Informations de la vente</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>N° Vente:</strong> SALE #{{ sale.id }}</p>
+          <p><strong>Date:</strong> {{ sale.date|date:"d/m/Y H:i" }}</p>
+          <p><strong>Client:</strong> {{ sale.customer|default:"Client comptoir" }}</p>
+          {% if sale.discount %}
+          <p><strong>Remise:</strong> {{ sale.discount }} €</p>
+          {% endif %}
+          {% if sale.notes %}
+          <p><strong>Notes:</strong> {{ sale.notes }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Récapitulatif</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Total HT:</strong> {{ sale.total_excl_tax|floatformat:2 }} €</p>
+          <p><strong>TVA:</strong> {{ sale.total_tax|floatformat:2 }} €</p>
+          <h5 class="text-success"><strong>Total TTC:</strong> {{ sale.total_incl_tax|floatformat:2 }} €</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h5>Articles vendus</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Médicament</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>TVA (%)</th>
+            <th>Sous-total HT</th>
+            <th>Montant TVA</th>
+            <th>Total TTC</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.medicine.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.unit_price|floatformat:2 }} €</td>
+            <td>{{ item.tax_rate|floatformat:2 }}%</td>
+            <td>{{ item.subtotal_excl_tax|floatformat:2 }} €</td>
+            <td>{{ item.tax_amount|floatformat:2 }} €</td>
+            <td>{{ item.subtotal_excl_tax|add:item.tax_amount|floatformat:2 }} €</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">Aucun article dans cette vente.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

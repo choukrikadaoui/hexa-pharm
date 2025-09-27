@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h3>Modifier la vente #{{ sale.id }}</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="{{ form.customer.id_for_label }}" class="form-label">Client</label>
+          {{ form.customer }}
+        </div>
+        <div class="mb-3">
+          <label for="{{ form.discount.id_for_label }}" class="form-label">Remise</label>
+          {{ form.discount }}
+        </div>
+        <div class="mb-3">
+          <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
+          {{ form.notes }}
+        </div>
+        <div class="alert alert-info">
+          <strong>Note:</strong> La modification de la vente ne permet pas de changer les articles vendus.
+          Pour modifier les articles, veuillez annuler cette vente et en créer une nouvelle.
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{% url 'sale_detail' sale.pk %}" class="btn btn-secondary">Annuler</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -10,7 +10,7 @@
     {% for s in sales %}
     <tr>
       <td>SALE #{{ s.id }}</td><td>{{ s.customer|default:"Client comptoir" }}</td><td>{{ s.date }}</td><td>{{ s.total_incl_tax }}€</td>
-      <td><a href="#" class="btn btn-sm btn-info">Détails</a></td>
+      <td><a href="{% url 'sale_detail' s.id %}" class="btn btn-sm btn-info">Détails</a></td>
     </tr>
     {% empty %}
     <tr><td colspan="5">Aucune vente.</td></tr>

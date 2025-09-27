@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      <h3>Supprimer la vente #{{ sale.id }}</h3>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-danger">
+        <strong>Attention!</strong> Cette action est irréversible.
+      </div>
+
+      <h5>Détails de la vente à supprimer:</h5>
+      <ul>
+        <li><strong>N° Vente:</strong> SALE #{{ sale.id }}</li>
+        <li><strong>Date:</strong> {{ sale.date|date:"d/m/Y H:i" }}</li>
+        <li><strong>Client:</strong> {{ sale.customer|default:"Client comptoir" }}</li>
+        <li><strong>Total TTC:</strong> {{ sale.total_incl_tax|floatformat:2 }} €</li>
+      </ul>
+
+      <div class="alert alert-warning">
+        <strong>Important:</strong> La suppression de cette vente n'annulera pas automatiquement
+        les mouvements de stock associés. Les articles vendus ne seront pas remis en stock.
+      </div>
+
+      <form method="POST">
+        {% csrf_token %}
+        <p>Êtes-vous sûr de vouloir supprimer cette vente ?</p>
+        <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+        <a href="{% url 'sale_detail' sale.pk %}" class="btn btn-secondary">Annuler</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
